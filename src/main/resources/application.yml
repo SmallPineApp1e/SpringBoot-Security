@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/security?serverTimezone=GMT-8&useUnicode=true
+    type: com.alibaba.druid.pool.DruidDataSource
