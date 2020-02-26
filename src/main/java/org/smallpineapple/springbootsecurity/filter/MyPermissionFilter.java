@@ -20,7 +20,7 @@ import java.util.List;
  * 定义过滤器,分析出用户的请求地址匹配逻辑并分析出需要哪些角色
  */
 @Component
-public class MyFilter implements FilterInvocationSecurityMetadataSource {
+public class MyPermissionFilter implements FilterInvocationSecurityMetadataSource {
     //路径匹配类,用于检查用户的请求路径是否与数据库中某个路径规则匹配
     AntPathMatcher antPathMatcher = new AntPathMatcher();
     @Autowired
@@ -48,7 +48,7 @@ public class MyFilter implements FilterInvocationSecurityMetadataSource {
                 return SecurityConfig.createList(rolesStr);
             }
         }
-        //全部都匹配不上,则返回一个默认的匹配路径,表示该路径是登录后就可以访问的路径
+        //全部都匹配不上,则返回一个默认的标识符,表示该路径是登录后就可以访问的路径
         return SecurityConfig.createList("ROLE_login");
     }
 

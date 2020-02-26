@@ -20,7 +20,9 @@ public class User implements UserDetails {
     private String password;
     private Boolean enabled;
     private Boolean locked;
+    //用户具备的角色
     private List<Role> roles;
+    //登录后返回的token
     private String token;
 
     public String getToken() {

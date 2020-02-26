@@ -20,7 +20,7 @@ import java.util.Collection;
 @Component
 public class CustomAccessDecisionManager implements AccessDecisionManager {
     /**
-     * 核心方法,决定用户是否可以正常访问该路径
+     * 核心方法,判断用户是否可以有权限访问该路径
      * @param authentication 可以获取登录的用户信息
      * @param o 实际是FilterInvocation对象,可以获取请求路径
      * @param collection 访问该路径所需要的角色,是MyFilter中的返回值

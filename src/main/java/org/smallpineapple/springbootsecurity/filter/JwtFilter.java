@@ -66,9 +66,8 @@ public class JwtFilter extends GenericFilterBean {
         String authoritiesStr = (String) claims.get("authorities");
         //转成用户的所有角色对象
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesStr);
-        //对用户进行
+        //对用户进行校验
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, authorities);
-        //设置校验
         SecurityContextHolder.getContext().setAuthentication(token);
         //放行
         filterChain.doFilter(servletRequest, servletResponse);

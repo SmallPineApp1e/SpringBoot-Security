@@ -2,7 +2,7 @@ package org.smallpineapple.springbootsecurity.config;
 
 import org.smallpineapple.springbootsecurity.filter.JwtFilter;
 import org.smallpineapple.springbootsecurity.filter.JwtLoginFilter;
-import org.smallpineapple.springbootsecurity.filter.MyFilter;
+import org.smallpineapple.springbootsecurity.filter.MyPermissionFilter;
 import org.smallpineapple.springbootsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
     @Autowired
-    MyFilter myFilter;
+    MyPermissionFilter myPermissionFilter;
     @Autowired
     CustomAccessDecisionManager customAccessDecisionManager;
 
@@ -46,23 +46,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //注册MyFilter和customAccessDecisionManager
+                //注册MyFilter和customAccessDecisionManager进行权限管理
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
                         o.setAccessDecisionManager(customAccessDecisionManager);
-                        o.setSecurityMetadataSource(myFilter);
+                        o.setSecurityMetadataSource(myPermissionFilter);
                         return o;
                     }
                 })
+                //路径为“/doLogin”的POST请求自动放行
                 .antMatchers(HttpMethod.POST, "/doLogin")
                 .permitAll()
+                //其它请求都需要认证
                 .anyRequest().authenticated()
                 .and()
-                //添加登录的过滤器
+                //添加登录的过滤器,当请求路径为"/doLogin"时该过滤器截取请求
                 .addFilterBefore(new JwtLoginFilter("/doLogin",
                         authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                //添加token校验的过滤器
+                //添加token校验的过滤器,每次发起请求都被该过滤器截取
                 .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
     }
