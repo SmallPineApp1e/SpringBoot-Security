@@ -1,4 +1,4 @@
-package org.smallpineapple.springbootsecurity.config;
+package org.smallpineapple.springbootsecurity.filter;
 
 import org.smallpineapple.springbootsecurity.bean.Menu;
 import org.smallpineapple.springbootsecurity.bean.Role;

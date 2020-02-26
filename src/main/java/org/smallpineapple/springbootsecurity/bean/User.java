@@ -1,5 +1,6 @@
 package org.smallpineapple.springbootsecurity.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,15 @@ public class User implements UserDetails {
     private Boolean enabled;
     private Boolean locked;
     private List<Role> roles;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public List<Role> getRoles() {
         return roles;
